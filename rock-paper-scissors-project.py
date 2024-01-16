@@ -80,3 +80,67 @@ elif input_rps == computer_coice:
   print("It's a draw!")
 else:
   print("You lose!!")
+
+
+###############################################################
+#### IMPROVING THE CODE
+### DEBUG INVALID NUMBER ERROR
+### NEW INDEX METHOD
+
+  rock = '''
+    _______
+---'   ____)
+      (_____)
+      (_____)
+      (____)
+---.__(___)
+'''
+
+paper = '''
+    _______
+---'   ____)____
+          ______)
+          _______)
+         _______)
+---.__________)
+'''
+
+scissors = '''
+    _______
+---'   ____)____
+          ______)
+       __________)
+      (____)
+---.__(___)
+'''
+
+#Write your code below this line 👇
+
+import random
+
+# new index
+images = [rock, paper, scissors]
+
+# input to integer
+input_rps = int(input("What do you choose? Type 0 for Rock, 1 for Paper or 2 for Scissors.\n"))
+
+# debugging invalid number error
+if input_rps >= 3 or input_rps < 0:
+  print("You typed an invalid number, you lose!")
+else:
+  print(images[input_rps])  # print IMAGES list according INPUT INDEX
+  
+  computer_coice = random.randint(0, 2)
+  print("Computer chose:")
+  print(images[computer_coice]) #print IMAGES list according COMPUTER INDEX
+  
+  if input_rps == 0 and computer_coice == 2:
+    print("You win!!!")
+  elif input_rps == 1 and computer_coice == 0:
+    print("You win!!!")
+  elif input_rps == 2 and computer_coice == 1:
+    print("You win!!!")
+  elif input_rps == computer_coice:
+    print("It's a draw!")
+  else:
+    print("You lose!!")
