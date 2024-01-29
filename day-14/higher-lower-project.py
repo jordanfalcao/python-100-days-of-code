@@ -20,20 +20,20 @@ def get_data_info(account):
 # creating game function
 def game():
   print(logo)
-  account_a = get_random_account() # initiating account_a
   account_b = get_random_account() # initiating account_b
-  should_continue = True           # 
+  should_continue = True            
   score = 0
-  a_followers = account_a['follower_count'] # getting followers for account_a
-  b_followers = account_b['follower_count'] # getting followers for account_b
-  
+    
   # while looping until shoul_continue is True
   while should_continue:
     account_a = account_b
     account_b = get_random_account()
+    a_followers = account_a['follower_count'] # getting followers for account_a
+    b_followers = account_b['follower_count'] # getting followers for account_b
+
     print(f"Compare A: {get_data_info(account_a)}.")
     print(vs)
-    print(f"Compare B: {get_data_info(account_b)}.\n")
+    print(f"Against B: {get_data_info(account_b)}.\n")
     guess = input("Who has more followers? Type 'A' or 'B': ").lower()
 
     # check_answer(guess, account_a['follower_count'], account_b['follower_count'])
