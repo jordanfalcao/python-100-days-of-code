@@ -1,6 +1,7 @@
 from turtle import Turtle, Screen
 
 MOVE_DISTANCE = 20
+STARTING_POSITION = [(0, 0), (-20, 0), (-40, 0)]
 
 
 class Snake:
@@ -11,25 +12,30 @@ class Snake:
         self.head = self.my_snake[0]
 
     def create_snake(self):
-        for i in range(3):
-            new_snake = Turtle()
-            new_snake.shape("square")
-            new_snake.color("white")
-            new_snake.penup()
-            new_snake.goto(x=self.x_pos, y=0)
-            self.my_snake.append(new_snake)
-            self.x_pos -= 20
+        for position in STARTING_POSITION:
+            self.add_segment(position)
+
+    def add_segment(self, position):
+        new_snake = Turtle("square")
+        new_snake.color("white")
+        new_snake.penup()
+        new_snake.goto(position)
+        self.my_snake.append(new_snake)
+
+    def extend(self):
+        self.add_segment(self.my_snake[-1].position())
 
     def move(self):
         for seg_num in range(len(self.my_snake) - 1, 0, -1):  # start, stop, step
             new_x = self.my_snake[seg_num - 1].xcor()
             new_y = self.my_snake[seg_num - 1].ycor()
             self.my_snake[seg_num].goto(new_x, new_y)
-        self.my_snake[0].forward(MOVE_DISTANCE)
+        self.head.forward(MOVE_DISTANCE)
 
     def up(self):
         if self.head.heading() != 270:
             self.head.setheading(90)
+
     def down(self):
         if self.head.heading() != 90:
             self.head.setheading(270)
