@@ -1,5 +1,6 @@
-from turtle import Turtle, Screen
+from turtle import Turtle
 
+# constants
 MOVE_DISTANCE = 20
 STARTING_POSITION = [(0, 0), (-20, 0), (-40, 0)]
 
@@ -9,18 +10,19 @@ class Snake:
         self.my_snake = []
         self.x_pos = 0
         self.create_snake()
-        self.head = self.my_snake[0]
+        self.head = self.my_snake[0]  # head position [0]
 
     def create_snake(self):
-        for position in STARTING_POSITION:
-            self.add_segment(position)
+        for position in STARTING_POSITION:  # loop through tuple list
+            self.add_segment(position)  # calling add_segment method
 
+    # add new segment to a specif position parameter
     def add_segment(self, position):
         new_snake = Turtle("square")
         new_snake.color("white")
         new_snake.penup()
         new_snake.goto(position)
-        self.my_snake.append(new_snake)
+        self.my_snake.append(new_snake)  # append new segment to our my_snake list
 
     def extend(self):
         self.add_segment(self.my_snake[-1].position())
@@ -33,17 +35,17 @@ class Snake:
         self.head.forward(MOVE_DISTANCE)
 
     def up(self):
-        if self.head.heading() != 270:
+        if self.head.heading() != 270:  # the snake can't turn over in the opposite direction
             self.head.setheading(90)
 
     def down(self):
-        if self.head.heading() != 90:
+        if self.head.heading() != 90:  # the snake can't turn over in the opposite direction
             self.head.setheading(270)
 
     def right(self):
-        if self.my_snake[0].heading() != 180:
+        if self.my_snake[0].heading() != 180:  # the snake can't turn over in the opposite direction
             self.my_snake[0].setheading(0)
 
     def left(self):
-        if self.my_snake[0].heading() != 0:
+        if self.my_snake[0].heading() != 0:  # the snake can't turn over in the opposite direction
             self.my_snake[0].setheading(180)
