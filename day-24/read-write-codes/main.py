@@ -20,6 +20,18 @@
 # with open("my_file.txt", mode="a") as file:
 #     file.write("\nMy favorite place is the beach.")
 
-# if the file you open in 'w' mode doesn't exist, it'll create the file for you:
-with open("new_file.txt", mode="w") as file:
-    file.write("Creatine another .txt file with open in mode='w'.")
+# # if the file you open in 'w' mode doesn't exist, it'll create the file for you:
+# with open("new_file.txt", mode="w") as file:
+#     file.write("Creatine another .txt file with open in mode='w'.")
+
+# # 'my_file.txt' was moved to Desktop folder:
+# # open a file in another directory (ABSOLUTE path):
+# with open('/Users/Jorda/Desktop/my_file.txt') as file:
+#     contents = file.read()  # read all the text and sets to our variable
+# print(contents)
+
+# # 'my_file.txt' was moved to Desktop folder:
+# open a file in another directory (RELATIVE path):
+with open('../../Desktop/my_file.txt') as file:
+    contents = file.read()  # read all the text and sets to our variable
+print(contents)
