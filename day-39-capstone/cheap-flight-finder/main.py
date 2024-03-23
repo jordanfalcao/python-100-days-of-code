@@ -1,6 +1,7 @@
 from data_manager import DataManager
 from flight_search import FlightSearch
 from datetime import datetime, timedelta
+from notification_manager import NotificationManager
 
 ORIGIN_CITY_CODE = "LON"
 
@@ -8,8 +9,9 @@ data_manager = DataManager()  # initiating DataManager class
 # data_manager.write_row()
 sheet_data = data_manager.get_data()  # getting destination data from sheet
 flight_search = FlightSearch()  # initiating FlightSearch class
+notification = NotificationManager()  # initiating NotificationManager class
 
-# filling sheet if IATA Code is empty
+# fills the sheet if IATA Code is empty
 if sheet_data[0]["iataCode"] == "":
     for row in sheet_data:
         row["iataCode"] = flight_search.get_destination_code(row["city"])
@@ -22,6 +24,7 @@ if sheet_data[0]["iataCode"] == "":
 tomorrow = datetime.now() + timedelta(days=1)
 six_months = datetime.now() + timedelta(days=180)
 
+# loop through sheet and storage the lowest price for each city
 for destination in sheet_data:
     flight = flight_search.check_flights(
         ORIGIN_CITY_CODE,
@@ -29,20 +32,9 @@ for destination in sheet_data:
         from_time=tomorrow,
         to_time=six_months
     )
-
-# headers = {"apikey": TEQUILA_API_KEY}
-# query = {
-#     "fly_from": ORIGIN_CITY_CODE,
-#     "fly_to": "PAR",
-#     "date_from": "2021",
-#     "date_to": "2021-05-01",
-#     "nights_in_dst_from": 7,
-#     "nights_in_dst_to": 28,
-#     "max_stopovers": 0,
-#     "curr": "GBP"
-# }
-# response = requests.get(
-#     url=f"{TEQUILA_ENDPOINT}/v2/search",
-#     params=query,
-#     headers=headers
-# )
+    # checks if the lowest price found is less than the lowest historical price
+    if flight.price < destination['lowestPrice']:
+        notification.send_notification(f"Low price ALERT! Only £{flight.price} to fly from "
+                                       f"{flight.origin_city}-{flight.origin_airport} to "
+                                       f"{flight.destination_city}-{flight.destination_airport}, "
+                                       f"from {flight.out_date} to {flight.return_date}.")
