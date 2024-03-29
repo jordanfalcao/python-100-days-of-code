@@ -32,9 +32,28 @@ for destination in sheet_data:
         from_time=tomorrow,
         to_time=six_months
     )
+
+    # if there aren't flights with at most 1 stopover, next loop
+    if flight is None:
+        continue
+
     # checks if the lowest price found is less than the lowest historical price
     if flight.price < destination['lowestPrice']:
-        notification.send_notification(f"Low price ALERT! Only £{flight.price} to fly from "
-                                       f"{flight.origin_city}-{flight.origin_airport} to "
-                                       f"{flight.destination_city}-{flight.destination_airport}, "
-                                       f"from {flight.out_date} to {flight.return_date}.")
+        users = data_manager.get_users_emails()
+        emails = [row["email"] for row in users]
+        # names = [row["firstName"] for row in users]
+
+        # message alert: SMS and EMAIL
+        message = f"Low price ALERT! Only £{flight.price} to fly from "\
+                  f"{flight.origin_city}-{flight.origin_airport} to "\
+                  f"{flight.destination_city}-{flight.destination_airport}, "\
+                  f"from {flight.out_date} to {flight.return_date}."
+
+        # additional message when have a stop-over
+        if flight.stop_overs > 0:
+            message += f"\nFlight has {flight.stop_overs} stop over, via {flight.via_city}."
+            print(message)
+
+        notification.send_notification(message)  # SMS METHOD
+        notification.send_emails(emails, message)  # EMAIL METHOD
+
